@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "name": "Products",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "description": {
+      "type": "string"
+    },
+    "productTypeId": {
+      "via": "products",
+      "model": "product-types"
+    },
+    "menu_item_products": {
+      "collection": "menu-item-products",
+      "via": "productId"
+    }
+  }
+}
