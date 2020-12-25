@@ -9,15 +9,24 @@ module.exports = ({ env }) => {
     username: env('DATABASE_USERNAME', null),
     password: env('DATABASE_PASSWORD', null),
   }
+
+  const localOptions = {
+    authenticationDatabase: env('AUTHENTICATION_DATABASE', null),
+    ssl: env.bool('DATABASE_SSL', false),
+  }
   
   const stagingProdSettings = {
-    uri: env('DATABASE_URI'),
-    database: env('DATABASE_NAME', 'chijeu')
+    uri: env('DATABASE_URI')
+  }
+
+  const stagingProdOptions = {
+    ssl: true
   }
 
   const isLocalEnv = _.includes(_.lowerCase(env('APP_ENV')), 'local')
 
   const settings = isLocalEnv ? localSettings : stagingProdSettings
+  const options = isLocalEnv ? localOptions : stagingProdOptions
 
   return {
     defaultConnection: 'default',
@@ -25,10 +34,7 @@ module.exports = ({ env }) => {
       default: {
         connector: 'mongoose',
         settings,
-        options: {
-          authenticationDatabase: env('AUTHENTICATION_DATABASE', null),
-          ssl: env.bool('DATABASE_SSL', false),
-        },
+        options,
       },
     },
   }
